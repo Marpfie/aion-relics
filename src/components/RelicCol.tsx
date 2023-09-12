@@ -4,7 +4,7 @@ import styles from "./relicCol.module.scss"
 import { observer } from "mobx-react"
 import { relicsStore } from "../stores/relics"
 
-const _RelicCol: React.FC<{ relic: TRelic }> = ({ relic }) => {
+export const RelicCol: React.FC<{ relic: TRelic }> = observer(({ relic }) => {
   const imageUrl = new URL(`../assets/${relic.id}.png`, import.meta.url).href
 
   return (
@@ -40,6 +40,4 @@ const _RelicCol: React.FC<{ relic: TRelic }> = ({ relic }) => {
       </div>
     </Col>
   )
-}
-
-export const RelicCol = observer(_RelicCol)
+})
