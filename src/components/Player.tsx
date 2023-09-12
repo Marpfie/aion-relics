@@ -1,6 +1,7 @@
 import { Button, Col, Form, Row } from "react-bootstrap"
 import { observer } from "mobx-react"
 import { playerStore } from "../stores/players"
+import { distributionStore } from "../stores/distribution"
 
 export const Player: React.FC<{ id: number }> = observer(({ id }) => {
   return (
@@ -14,6 +15,7 @@ export const Player: React.FC<{ id: number }> = observer(({ id }) => {
       </Col>
       <Col md="auto">
         <Form.Control
+          disabled={distributionStore.distributionInProgress}
           type="number"
           value={playerStore.playerAP[id]}
           onChange={(ev) =>
@@ -22,7 +24,11 @@ export const Player: React.FC<{ id: number }> = observer(({ id }) => {
         />
       </Col>
       <Col md="auto">
-        <Button variant="danger" onClick={() => playerStore.removePlayer(id)}>
+        <Button
+          disabled={distributionStore.distributionInProgress}
+          variant="danger"
+          onClick={() => playerStore.removePlayer(id)}
+        >
           Remove
         </Button>
       </Col>

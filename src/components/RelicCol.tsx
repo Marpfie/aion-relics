@@ -3,6 +3,7 @@ import { TRelic } from "../utils/relics"
 import styles from "./relicCol.module.scss"
 import { observer } from "mobx-react"
 import { relicsStore } from "../stores/relics"
+import { distributionStore } from "../stores/distribution"
 
 export const RelicCol: React.FC<{ relic: TRelic }> = observer(({ relic }) => {
   const imageUrl = new URL(`../assets/${relic.id}.png`, import.meta.url).href
@@ -15,6 +16,7 @@ export const RelicCol: React.FC<{ relic: TRelic }> = observer(({ relic }) => {
       <div className={styles.relicInput}>
         <img src={imageUrl} alt={relic.id} />
         <Form.Control
+          disabled={distributionStore.distributionInProgress}
           type="number"
           value={relicsStore.relicCount[relic.id]}
           onChange={(ev) =>
@@ -23,6 +25,7 @@ export const RelicCol: React.FC<{ relic: TRelic }> = observer(({ relic }) => {
         />
         <ButtonGroup>
           <Button
+            disabled={distributionStore.distributionInProgress}
             size="sm"
             variant="primary"
             onClick={() => relicsStore.addRelic(relic.id)}
@@ -30,6 +33,7 @@ export const RelicCol: React.FC<{ relic: TRelic }> = observer(({ relic }) => {
             +
           </Button>
           <Button
+            disabled={distributionStore.distributionInProgress}
             size="sm"
             variant="primary"
             onClick={() => relicsStore.removeRelic(relic.id)}

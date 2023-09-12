@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx"
-import { TRelicName, relics } from "../utils/relics"
+import { TRelic, TRelicName, relics } from "../utils/relics"
+import _ from "lodash"
 
 class RelicsStore {
   constructor() {
@@ -25,20 +26,6 @@ class RelicsStore {
     lesserAncientIcon: 0,
   }
 
-  addRelic(relic: TRelicName): void {
-    this.relicCount[relic]++
-  }
-
-  removeRelic(relic: TRelicName): void {
-    if (this.relicCount[relic] > 0) {
-      this.relicCount[relic]--
-    }
-  }
-
-  setRelicCount(relic: TRelicName, count: number): void {
-    this.relicCount[relic] = count
-  }
-
   get totalRelicValue(): number {
     let total = 0
 
@@ -48,6 +35,40 @@ class RelicsStore {
     }
 
     return total
+  }
+
+  get totalRelicCount(): number {
+    let total = 0
+
+    for (const relic in this.relicCount) {
+      total += this.relicCount[relic as TRelicName]
+    }
+
+    return total
+  }
+
+  get sortedRelics(): TRelic[] {
+    return _.sortBy(Object.values(relics), "value").reverse()
+  }
+
+  addRelic = (relic: TRelicName): void => {
+    this.relicCount[relic]++
+  }
+
+  removeRelic = (relic: TRelicName): void => {
+    if (this.relicCount[relic] > 0) {
+      this.relicCount[relic]--
+    }
+  }
+
+  setRelicCount = (relic: TRelicName, count: number): void => {
+    this.relicCount[relic] = count
+  }
+
+  resetRelics = (): void => {
+    for (const relic in this.relicCount) {
+      this.relicCount[relic as TRelicName] = 0
+    }
   }
 }
 
