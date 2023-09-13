@@ -1,4 +1,6 @@
 import { makeAutoObservable } from "mobx"
+import { TRelicName, defaultRelicMap } from "../utils/relics"
+import _ from "lodash"
 
 export type TPlayer = {
   id: number
@@ -21,6 +23,10 @@ class PlayerStore {
     1: 0,
   }
 
+  playerItems: Record<number, Record<TRelicName, number>> = {
+    1: _.cloneDeep(defaultRelicMap),
+  }
+
   get playersAsArray(): TPlayer[] {
     return Object.entries(this.players).map(([id, name]) => ({
       id: Number(id),
@@ -33,6 +39,7 @@ class PlayerStore {
     this.lastPlayerId++
     this.players[this.lastPlayerId] = `Player ${this.lastPlayerId}`
     this.playerAP[this.lastPlayerId] = 0
+    this.playerItems[this.lastPlayerId] = _.cloneDeep(defaultRelicMap)
   }
 
   removePlayer = (playerNumber: number): void => {
@@ -52,6 +59,10 @@ class PlayerStore {
 
   addPlayerAP = (playerNumber: number, ap: number): void => {
     this.playerAP[playerNumber] += ap
+  }
+
+  addPlayerItem = (playerNumber: number, item: TRelicName): void => {
+    this.playerItems[playerNumber][item]++
   }
 }
 

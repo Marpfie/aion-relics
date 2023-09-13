@@ -1,5 +1,5 @@
 import { observer } from "mobx-react"
-import { Button, Container, Row } from "react-bootstrap"
+import { Accordion, Button, Container, Row } from "react-bootstrap"
 import { playerStore } from "../stores/players"
 import { Player } from "./Player"
 import styles from "./playerList.module.scss"
@@ -39,9 +39,11 @@ export const PlayerList: React.FC = observer(() => {
         </Button>
       </Row>
       <Distribution />
-      {players.map((key) => (
-        <Player key={key} id={Number(key)} />
-      ))}
+      <Accordion flush>
+        {players.map((key) => (
+          <Player key={key} id={Number(key)} />
+        ))}
+      </Accordion>
     </Container>
   )
 })

@@ -87,6 +87,8 @@ class DistributionStore {
       relics[instruction.targetRelic].value
     )
 
+    playerStore.addPlayerItem(instruction.targetPlayer, instruction.targetRelic)
+
     relicsStore.removeRelic(instruction.targetRelic)
 
     this.distributionInstructions.shift()
@@ -95,10 +97,10 @@ class DistributionStore {
     if (this.distributionInstructions.length !== 0) {
       return
     }
+
     this.currentInstructionIndex = 1
     this.distributionInProgress = false
     relicsStore.resetRelics()
-    return
   }
 }
 
