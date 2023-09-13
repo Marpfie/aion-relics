@@ -45,6 +45,7 @@ class PlayerStore {
   removePlayer = (playerNumber: number): void => {
     delete this.players[playerNumber]
     delete this.playerAP[playerNumber]
+    delete this.playerItems[playerNumber]
   }
 
   renamePlayer = (playerNumber: number, name: string): void => {

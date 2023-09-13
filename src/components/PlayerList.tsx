@@ -31,7 +31,8 @@ export const PlayerList: React.FC = observer(() => {
           variant="warning"
           disabled={
             distributionStore.distributionInProgress ||
-            relicsStore.totalRelicCount <= 0
+            relicsStore.totalRelicCount <= 0 ||
+            players.length <= 0
           }
           onClick={() => distributionStore.initializeDistribution()}
         >
