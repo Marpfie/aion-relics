@@ -6,6 +6,7 @@ import styles from "./playerList.module.scss"
 import { distributionStore } from "../stores/distribution"
 import { Distribution } from "./Distribution"
 import { relicsStore } from "../stores/relics"
+import { Import } from "./Import"
 
 export const PlayerList: React.FC = observer(() => {
   const players = Object.keys(playerStore.players)
@@ -21,11 +22,7 @@ export const PlayerList: React.FC = observer(() => {
           Add Player
         </Button>
       </Row>
-      <Row className="justify-content-md-center">
-        <Button disabled={distributionStore.distributionInProgress}>
-          TBA: Import Players and current AP from DPS Meter
-        </Button>
-      </Row>
+      <Import />
       <Row className="justify-content-md-center">
         <Button
           variant="warning"

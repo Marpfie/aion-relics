@@ -35,9 +35,9 @@ class PlayerStore {
     }))
   }
 
-  addPlayer = (): void => {
+  addPlayer = (name?: string): void => {
     this.lastPlayerId++
-    this.players[this.lastPlayerId] = `Player ${this.lastPlayerId}`
+    this.players[this.lastPlayerId] = name ?? `Player ${this.lastPlayerId}`
     this.playerAP[this.lastPlayerId] = 0
     this.playerItems[this.lastPlayerId] = _.cloneDeep(defaultRelicMap)
   }
@@ -64,6 +64,37 @@ class PlayerStore {
 
   addPlayerItem = (playerNumber: number, item: TRelicName): void => {
     this.playerItems[playerNumber][item]++
+  }
+
+  importDpsMeterString = (dpsRelicInfo: string): void => {
+    // example string: "Relics (AP): Kryto 9.300, Shirokami 9.300, Timpany 9.300, Welu 9.300, Marvellous 9.600"
+    if (!dpsRelicInfo.startsWith("Relics (AP): ")) {
+      return
+    }
+
+    const relicInfo = dpsRelicInfo
+
+      .replace("Relics (AP): ", "")
+      .replaceAll(".", "")
+      .split(", ")
+      .map((relic) => relic.split(" "))
+
+    try {
+      this.players = {}
+      this.playerAP = {}
+      this.playerItems = {}
+
+      relicInfo.forEach(([name, value]) => {
+        if (typeof name !== "string" || isNaN(Number(value))) {
+          throw new Error("Invalid relic info string")
+        }
+
+        this.addPlayer(name)
+        this.setPlayerAP(this.lastPlayerId, Number(value))
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
