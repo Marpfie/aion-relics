@@ -1,11 +1,16 @@
-import { Accordion, Button, Col, Form, Row } from "react-bootstrap"
 import { observer } from "mobx-react"
-import { playerStore } from "../stores/players"
+import { Accordion, Button, Col, Form, Row } from "react-bootstrap"
+import { useTranslation } from "react-i18next"
+
 import { distributionStore } from "../stores/distribution"
-import styles from "./player.module.scss"
+import { playerStore } from "../stores/players"
 import { relicsStore } from "../stores/relics"
 
+import styles from "./player.module.scss"
+
 export const Player: React.FC<{ id: number }> = observer(({ id }) => {
+  const { t } = useTranslation(["players", "relicNames"])
+
   return (
     <Accordion.Item eventKey={`${id}`}>
       <Accordion.Header>
@@ -38,7 +43,7 @@ export const Player: React.FC<{ id: number }> = observer(({ id }) => {
                 playerStore.removePlayer(id)
               }}
             >
-              Remove
+              {t("remove")}
             </Button>
           </Col>
         </Row>
@@ -51,11 +56,11 @@ export const Player: React.FC<{ id: number }> = observer(({ id }) => {
               import.meta.url
             ).href
             return (
-              <div>
+              <div key={`${id}-${relic.id}`}>
                 {playerStore.playerItems[id][relic.id]}
                 {"x "}
-                <img src={imageUrl} alt={relic.id} /> {relic.name} -{" "}
-                {relic.value}
+                <img src={imageUrl} alt={relic.id} />{" "}
+                {t(`relicNames:${relic.id}`)} - {relic.value}
               </div>
             )
           } else {

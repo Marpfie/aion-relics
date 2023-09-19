@@ -1,13 +1,18 @@
-import { Col, Container, Row } from "react-bootstrap"
-import { relics } from "../utils/relics"
-import { RelicCol } from "./RelicCol"
-import { relicsStore } from "../stores/relics"
-import { observer } from "mobx-react"
-import styles from "./relicTable.module.scss"
 import clsx from "clsx"
+import { observer } from "mobx-react"
+import { Col, Container, Row } from "react-bootstrap"
+import { useTranslation } from "react-i18next"
+
 import AP from "../assets/ap.png"
+import { relicsStore } from "../stores/relics"
+import { relics } from "../utils/relics"
+
+import { RelicCol } from "./RelicCol"
+import styles from "./relicTable.module.scss"
 
 export const RelicTable: React.FC = observer(() => {
+  const { t } = useTranslation("distribution")
+
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -44,7 +49,7 @@ export const RelicTable: React.FC = observer(() => {
       </Row>
       <Row>
         <Col className={styles.totalAP}>
-          <h4>Total AP: {relicsStore.totalRelicValue}</h4>
+          <h4>{t("totalAP", { value: relicsStore.totalRelicValue })}</h4>
           <img src={AP} />
         </Col>
       </Row>

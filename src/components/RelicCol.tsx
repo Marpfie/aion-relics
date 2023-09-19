@@ -1,17 +1,22 @@
-import { Col, Form, Button, ButtonGroup } from "react-bootstrap"
-import { TRelic } from "../utils/relics"
-import styles from "./relicCol.module.scss"
 import { observer } from "mobx-react"
-import { relicsStore } from "../stores/relics"
+import { Button, ButtonGroup, Col, Form } from "react-bootstrap"
+import { useTranslation } from "react-i18next"
+
 import { distributionStore } from "../stores/distribution"
+import { relicsStore } from "../stores/relics"
+import { TRelic } from "../utils/relics"
+
+import styles from "./relicCol.module.scss"
 
 export const RelicCol: React.FC<{ relic: TRelic }> = observer(({ relic }) => {
+  const { t } = useTranslation("relicNames")
+
   const imageUrl = new URL(`../assets/${relic.id}.png`, import.meta.url).href
 
   return (
     <Col md="auto">
       <div>
-        {relic.name} - {relic.value}
+        {t(relic.id)} - {relic.value}
       </div>
       <div className={styles.relicInput}>
         <img src={imageUrl} alt={relic.id} />

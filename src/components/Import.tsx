@@ -5,9 +5,11 @@ import { useState } from "react"
 import styles from "./import.module.scss"
 import clsx from "clsx"
 import { playerStore } from "../stores/players"
+import { useTranslation } from "react-i18next"
 
 export const Import: React.FC = observer(() => {
   const [importString, setImportString] = useState("")
+  const { t } = useTranslation("import")
 
   return (
     <Row className={clsx("justify-content-md-center", styles.import)}>
@@ -15,13 +17,13 @@ export const Import: React.FC = observer(() => {
         type="string"
         value={importString}
         onChange={(ev) => setImportString(ev.target.value)}
-        placeholder='Paste your player list here "Relics (AP): ..."'
+        placeholder={t("placeholder")}
       />
       <Button
         disabled={distributionStore.distributionInProgress}
         onClick={() => playerStore.importDpsMeterString(importString)}
       >
-        Import Players
+        {t("button")}
       </Button>
     </Row>
   )
