@@ -12,24 +12,10 @@ class DistributionStore {
 
   distributionInProgress = false
 
-  distributedAP: Record<number, number> = {}
-
-  distributionInstructions: TInstruction[] = []
+  currentInstruction: TInstruction | undefined
 
   currentInstructionIndex = 1
   totalInstructionCount = 0
-
-  get currentInstruction(): TInstruction {
-    return this.distributionInstructions[0]
-  }
-
-  initializeDistributedAP = (): void => {
-    this.distributedAP = {}
-
-    playerStore.playersAsArray.forEach((player) => {
-      this.distributedAP[player.id] = playerStore.playerAP[player.id]
-    })
-  }
 
   initializeDistribution = (): void => {
     if (relicsStore.totalRelicCount <= 0) {
@@ -38,49 +24,34 @@ class DistributionStore {
 
     this.distributionInProgress = true
     this.currentInstructionIndex = 1
-    this.totalInstructionCount = 0
-    this.initializeDistributedAP()
-    this.generateInstructions()
+    this.totalInstructionCount = relicsStore.totalRelicCount
+    this.generateNextInstruction()
   }
 
-  private generateInstructions = (): void => {
-    this.distributionInstructions = []
+  private generateNextInstruction = (): void => {
+    // find all players with the lowest AP
+    const lowestAP = _.min(Object.values(playerStore.playerAP))
 
-    const count = _.cloneDeep(relicsStore.relicCount)
+    const playersWithLowestAP = _.filter(
+      playerStore.playersAsArray,
+      (player) => player.AP === lowestAP
+    )
 
-    relicsStore.sortedRelics.forEach((relic) => {
-      while (count[relic.id] > 0) {
-        // find all players with the lowest AP
-        const lowestAP = _.min(Object.values(this.distributedAP))
+    // select a random player from that list
+    const randomPlayer = _.sample(playersWithLowestAP)
 
-        const playersWithLowestAP = _.filter(
-          playerStore.playersAsArray,
-          (player) => this.distributedAP[player.id] === lowestAP
-        )
+    // get the most expensive relic still available
+    const relic = relicsStore.currentSortedRelics[0]
 
-        // select a random player from that list
-        const randomPlayer = _.sample(playersWithLowestAP)
-
-        // generate instruction to add the relic to that player
-        this.distributionInstructions.push({
-          id: this.distributionInstructions.length + 1,
-          targetPlayer: randomPlayer!.id,
-          targetRelic: relic.id,
-        })
-
-        this.totalInstructionCount++
-
-        // add relic value to distributedAP
-        this.distributedAP[randomPlayer!.id]! += relic.value
-
-        count[relic.id]--
-      }
-    })
+    // generate instruction to add the relic to that player
+    this.currentInstruction = {
+      targetPlayer: randomPlayer!.id,
+      targetRelic: relic.id,
+    }
   }
 
   distributeCurrentInstruction = (): void => {
-    // Assigns the relic AP to the player and removes the instruction from the list
-    const instruction = this.distributionInstructions[0]
+    const instruction = this.currentInstruction!
 
     playerStore.addPlayerAP(
       instruction.targetPlayer,
@@ -91,13 +62,29 @@ class DistributionStore {
 
     relicsStore.removeRelic(instruction.targetRelic)
 
-    this.distributionInstructions.shift()
     this.currentInstructionIndex++
 
-    if (this.distributionInstructions.length !== 0) {
-      return
+    if (relicsStore.totalRelicCount > 0) {
+      this.generateNextInstruction()
+    } else {
+      this.finalizeDistribution()
     }
+  }
 
+  skipCurrentInstruction = (): void => {
+    this.currentInstructionIndex++
+
+    const relic = relicsStore.currentSortedRelics[0]
+    relicsStore.removeRelic(relic.id)
+
+    if (relicsStore.totalRelicCount > 0) {
+      this.generateNextInstruction()
+    } else {
+      this.finalizeDistribution()
+    }
+  }
+
+  finalizeDistribution = (): void => {
     this.currentInstructionIndex = 1
     this.distributionInProgress = false
     relicsStore.resetRelics()

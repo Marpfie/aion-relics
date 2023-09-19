@@ -51,6 +51,12 @@ class RelicsStore {
     return _.sortBy(Object.values(relics), "value").reverse()
   }
 
+  get currentSortedRelics(): TRelic[] {
+    return _.filter(this.sortedRelics, (relic) => {
+      return this.relicCount[relic.id] > 0
+    })
+  }
+
   addRelic = (relic: TRelicName): void => {
     this.relicCount[relic]++
   }

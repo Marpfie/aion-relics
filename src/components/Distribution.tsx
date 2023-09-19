@@ -4,6 +4,7 @@ import { distributionStore } from "../stores/distribution"
 import { Alert, Button, Row } from "react-bootstrap"
 import { playerStore } from "../stores/players"
 import { relics } from "../utils/relics"
+import styles from "./distribution.module.scss"
 
 export const Distribution: React.FC = observer(() => {
   const instruction = distributionStore.currentInstruction
@@ -29,13 +30,16 @@ export const Distribution: React.FC = observer(() => {
           >
             Ok
           </Button>
-          <b>
+          <Button
+            onClick={distributionStore.skipCurrentInstruction}
+            variant="danger"
+          >
+            Skip
+          </Button>
+          <b className={styles.step}>
             Instruction {distributionStore.currentInstructionIndex}/
             {distributionStore.totalInstructionCount}
           </b>
-          {/* <Button onClick={distributionStore.skipInstruction} variant="danger">
-            Skip
-          </Button> */}
         </Alert>
       </Row>
     )
