@@ -76,6 +76,12 @@ class RelicsStore {
       this.relicCount[relic as TRelicName] = 0
     }
   }
+
+  restoreSkippedRelics = (skippedRelics: TRelicName[]): void => {
+    for (const relic of skippedRelics) {
+      this.relicCount[relic]++
+    }
+  }
 }
 
 export const relicsStore = new RelicsStore()

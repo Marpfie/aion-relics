@@ -26,6 +26,7 @@ export const de: typeof en = {
     instruction: "{{playerName}} erhält ",
     ok: "OK",
     skip: "Überspringen",
+    skipRemove: "Überspringen und entfernen",
     step: "Relikt {{step}} von {{total}}",
     distribute: "Relikte verteilen",
     totalAP: "Gesamte AP: {{value}}",

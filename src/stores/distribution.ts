@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { relics } from "../utils/relics"
+import { TRelicName, relics } from "../utils/relics"
 import { TInstruction } from "../utils/distribution"
 import { relicsStore } from "./relics"
 import { playerStore } from "./players"
@@ -13,6 +13,7 @@ class DistributionStore {
   distributionInProgress = false
 
   currentInstruction: TInstruction | undefined
+  skippedRelics: TRelicName[] = []
 
   currentInstructionIndex = 1
   totalInstructionCount = 0
@@ -25,6 +26,7 @@ class DistributionStore {
     this.distributionInProgress = true
     this.currentInstructionIndex = 1
     this.totalInstructionCount = relicsStore.totalRelicCount
+    this.skippedRelics = []
     this.generateNextInstruction()
   }
 
@@ -71,7 +73,11 @@ class DistributionStore {
     }
   }
 
-  skipCurrentInstruction = (): void => {
+  skipCurrentInstruction = (keep = false): void => {
+    if (keep) {
+      this.skippedRelics.push(this.currentInstruction!.targetRelic)
+    }
+
     this.currentInstructionIndex++
 
     const relic = relicsStore.currentSortedRelics[0]
@@ -85,9 +91,14 @@ class DistributionStore {
   }
 
   finalizeDistribution = (): void => {
-    this.currentInstructionIndex = 1
-    this.distributionInProgress = false
-    relicsStore.resetRelics()
+    if (this.skippedRelics.length > 0) {
+      relicsStore.restoreSkippedRelics(this.skippedRelics)
+      this.initializeDistribution()
+    } else {
+      this.currentInstructionIndex = 1
+      this.distributionInProgress = false
+      relicsStore.resetRelics()
+    }
   }
 }
 

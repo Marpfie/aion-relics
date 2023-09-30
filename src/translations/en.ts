@@ -23,7 +23,8 @@ export const en = {
   distribution: {
     instruction: "{{playerName}} receives ",
     ok: "OK",
-    skip: "Skip",
+    skip: "Skip for later",
+    skipRemove: "Skip and remove",
     step: "Relic {{step}} of {{total}}",
     distribute: "Distribute Relics",
     totalAP: "Total AP: {{value}}",

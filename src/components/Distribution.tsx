@@ -37,10 +37,17 @@ export const Distribution: React.FC = observer(() => {
             {t("ok")}
           </Button>
           <Button
-            onClick={distributionStore.skipCurrentInstruction}
+            style={{ marginRight: "0.5em" }}
+            onClick={() => distributionStore.skipCurrentInstruction(true)}
             variant="danger"
           >
             {t("skip")}
+          </Button>
+          <Button
+            onClick={() => distributionStore.skipCurrentInstruction()}
+            variant="danger"
+          >
+            {t("skipRemove")}
           </Button>
           <b className={styles.step}>
             {t("step", {
