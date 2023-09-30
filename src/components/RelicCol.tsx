@@ -23,6 +23,7 @@ export const RelicCol: React.FC<{ relic: TRelic }> = observer(({ relic }) => {
         <Form.Control
           disabled={distributionStore.distributionInProgress}
           type="number"
+          min={0}
           value={relicsStore.relicCount[relic.id]}
           onChange={(ev) =>
             relicsStore.setRelicCount(relic.id, Number(ev.target.value))
