@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx"
-import { TRelicName, relics } from "../utils/relics"
+import { TRelicName } from "../utils/relics"
 import { TInstruction } from "../utils/distribution"
 import { relicsStore } from "./relics"
 import { playerStore } from "./players"
@@ -57,7 +57,7 @@ class DistributionStore {
 
     playerStore.addPlayerAP(
       instruction.targetPlayer,
-      relics[instruction.targetRelic].value
+      relicsStore.relics[instruction.targetRelic].value
     )
 
     playerStore.addPlayerItem(instruction.targetPlayer, instruction.targetRelic)
@@ -94,11 +94,12 @@ class DistributionStore {
     if (this.skippedRelics.length > 0) {
       relicsStore.restoreSkippedRelics(this.skippedRelics)
       this.initializeDistribution()
-    } else {
-      this.currentInstructionIndex = 1
-      this.distributionInProgress = false
-      relicsStore.resetRelics()
+      return
     }
+
+    this.currentInstructionIndex = 1
+    this.distributionInProgress = false
+    relicsStore.resetRelics()
   }
 }
 

@@ -30,6 +30,11 @@ export const de: typeof en = {
     step: "Relikt {{step}} von {{total}}",
     distribute: "Relikte verteilen",
     totalAP: "Gesamte AP: {{value}}",
+    relicValues: {
+      label: "Reliktwerte",
+      old: "Alt",
+      new: "Neu",
+    },
   },
   import: {
     placeholder: 'Kopiere die Spielerliste hier: "Relics (AP): ..."',

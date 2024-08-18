@@ -20,6 +20,7 @@ export const en = {
     majorAncientIcon: "Major Ancient Icon",
     majorAncientSeal: "Major Ancient Seal",
   },
+
   distribution: {
     instruction: "{{playerName}} receives ",
     ok: "OK",
@@ -28,6 +29,11 @@ export const en = {
     step: "Relic {{step}} of {{total}}",
     distribute: "Distribute Relics",
     totalAP: "Total AP: {{value}}",
+    relicValues: {
+      label: "Relic values",
+      old: "Old",
+      new: "New",
+    },
   },
   import: {
     placeholder: 'Paste your player list here: "Relics (AP): ..."',

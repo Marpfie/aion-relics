@@ -93,7 +93,7 @@ class PlayerStore {
         this.setPlayerAP(this.lastPlayerId, Number(value))
       })
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
 }

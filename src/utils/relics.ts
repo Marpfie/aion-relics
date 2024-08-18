@@ -40,7 +40,7 @@ export const defaultRelicMap: Record<TRelicName, number> = {
   lesserAncientIcon: 0,
 }
 
-export const relics: Record<TRelicName, TRelic> = {
+export const oldRelics: Record<TRelicName, TRelic> = {
   majorAncientCrown: {
     id: "majorAncientCrown",
     value: 9600,
@@ -104,5 +104,72 @@ export const relics: Record<TRelicName, TRelic> = {
   lesserAncientIcon: {
     id: "lesserAncientIcon",
     value: 300,
+  },
+}
+
+export const newRelics: Record<TRelicName, TRelic> = {
+  majorAncientCrown: {
+    id: "majorAncientCrown",
+    value: 9600,
+  },
+  greaterAncientCrown: {
+    id: "greaterAncientCrown",
+    value: 7200,
+  },
+  ancientCrown: {
+    id: "ancientCrown",
+    value: 4800,
+  },
+  lesserAncientCrown: {
+    id: "lesserAncientCrown",
+    value: 2400,
+  },
+  majorAncientChalice: {
+    id: "majorAncientChalice",
+    value: 4800,
+  },
+  greaterAncientChalice: {
+    id: "greaterAncientChalice",
+    value: 3600,
+  },
+  ancientChalice: {
+    id: "ancientChalice",
+    value: 2400,
+  },
+  lesserAncientChalice: {
+    id: "lesserAncientChalice",
+    value: 1200,
+  },
+  majorAncientSeal: {
+    id: "majorAncientSeal",
+    value: 3600,
+  },
+  greaterAncientSeal: {
+    id: "greaterAncientSeal",
+    value: 2700,
+  },
+  ancientSeal: {
+    id: "ancientSeal",
+    value: 1800,
+  },
+  lesserAncientSeal: {
+    id: "lesserAncientSeal",
+    value: 900,
+  },
+  majorAncientIcon: {
+    id: "majorAncientIcon",
+    value: 1800,
+  },
+  greaterAncientIcon: {
+    id: "greaterAncientIcon",
+    value: 1350,
+  },
+  ancientIcon: {
+    id: "ancientIcon",
+    value: 900,
+  },
+  lesserAncientIcon: {
+    id: "lesserAncientIcon",
+    value: 450,
   },
 }

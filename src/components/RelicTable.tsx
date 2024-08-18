@@ -1,11 +1,10 @@
 import clsx from "clsx"
 import { observer } from "mobx-react"
-import { Col, Container, Row } from "react-bootstrap"
+import { ButtonGroup, Col, Container, Row, ToggleButton } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
 
 import AP from "../assets/ap.png"
 import { relicsStore } from "../stores/relics"
-import { relics } from "../utils/relics"
 
 import { RelicCol } from "./RelicCol"
 import styles from "./relicTable.module.scss"
@@ -15,37 +14,65 @@ export const RelicTable: React.FC = observer(() => {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
-        <RelicCol relic={relics.majorAncientCrown} />
-        <RelicCol relic={relics.majorAncientSeal} />
+      <Row>
+        <Col className={styles.totalAP}>
+          <ButtonGroup>
+            <ToggleButton
+              key="old"
+              type="radio"
+              // variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+              name="radio"
+              value="old"
+              checked={!relicsStore.newRelicValues}
+              onClick={() => relicsStore.setRelicValue(false)}
+            >
+              {t("relicValues.old")}
+            </ToggleButton>
+            <ToggleButton
+              key="new"
+              type="radio"
+              // variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+              name="radio"
+              value="new"
+              checked={relicsStore.newRelicValues}
+              onClick={() => relicsStore.setRelicValue(true)}
+            >
+              {t("relicValues.new")}
+            </ToggleButton>
+          </ButtonGroup>
+        </Col>
       </Row>
       <Row className="justify-content-md-center">
-        <RelicCol relic={relics.greaterAncientCrown} />
-        <RelicCol relic={relics.greaterAncientSeal} />
+        <RelicCol relic={relicsStore.relics.majorAncientCrown} />
+        <RelicCol relic={relicsStore.relics.majorAncientSeal} />
       </Row>
       <Row className="justify-content-md-center">
-        <RelicCol relic={relics.ancientCrown} />
-        <RelicCol relic={relics.ancientSeal} />
+        <RelicCol relic={relicsStore.relics.greaterAncientCrown} />
+        <RelicCol relic={relicsStore.relics.greaterAncientSeal} />
+      </Row>
+      <Row className="justify-content-md-center">
+        <RelicCol relic={relicsStore.relics.ancientCrown} />
+        <RelicCol relic={relicsStore.relics.ancientSeal} />
       </Row>
       <Row className={clsx("justify-content-md-center", styles.fourthRow)}>
-        <RelicCol relic={relics.lesserAncientCrown} />
-        <RelicCol relic={relics.lesserAncientSeal} />
+        <RelicCol relic={relicsStore.relics.lesserAncientCrown} />
+        <RelicCol relic={relicsStore.relics.lesserAncientSeal} />
       </Row>
       <Row className="justify-content-md-center">
-        <RelicCol relic={relics.majorAncientChalice} />
-        <RelicCol relic={relics.majorAncientIcon} />
+        <RelicCol relic={relicsStore.relics.majorAncientChalice} />
+        <RelicCol relic={relicsStore.relics.majorAncientIcon} />
       </Row>
       <Row className="justify-content-md-center">
-        <RelicCol relic={relics.greaterAncientChalice} />
-        <RelicCol relic={relics.greaterAncientIcon} />
+        <RelicCol relic={relicsStore.relics.greaterAncientChalice} />
+        <RelicCol relic={relicsStore.relics.greaterAncientIcon} />
       </Row>
       <Row className="justify-content-md-center">
-        <RelicCol relic={relics.ancientChalice} />
-        <RelicCol relic={relics.ancientIcon} />
+        <RelicCol relic={relicsStore.relics.ancientChalice} />
+        <RelicCol relic={relicsStore.relics.ancientIcon} />
       </Row>
       <Row className="justify-content-md-center">
-        <RelicCol relic={relics.lesserAncientChalice} />
-        <RelicCol relic={relics.lesserAncientIcon} />
+        <RelicCol relic={relicsStore.relics.lesserAncientChalice} />
+        <RelicCol relic={relicsStore.relics.lesserAncientIcon} />
       </Row>
       <Row>
         <Col className={styles.totalAP}>
